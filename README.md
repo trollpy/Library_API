@@ -70,6 +70,10 @@ The system uses MySQL with the following tables:
 5. Run the application:
    ```
    uvicorn app.main:app --reload
+
+   or 
+
+   python -m uvicorn app.main:app --reload
    ```
 6. Access the API documentation at `http://localhost:8000/docs`
 
