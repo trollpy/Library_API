@@ -2,7 +2,7 @@ DROP DATABASE IF EXISTS library_management;
 CREATE DATABASE library_management;
 USE library_management;
 
--- Create MEMBERS table
+--  MEMBERS table
 CREATE TABLE members (
     member_id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE members (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Create BOOKS table
+--  BOOKS table
 CREATE TABLE books (
     book_id INT AUTO_INCREMENT PRIMARY KEY,
     isbn VARCHAR(20) UNIQUE NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE books (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Create AUTHORS table
+--  AUTHORS table
 CREATE TABLE authors (
     author_id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE authors (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Create CATEGORIES table
+--  CATEGORIES table
 CREATE TABLE categories (
     category_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) UNIQUE NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE categories (
     FOREIGN KEY (parent_category_id) REFERENCES categories(category_id) ON DELETE SET NULL
 );
 
--- Create STAFF table
+--  STAFF table
 CREATE TABLE staff (
     staff_id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE staff (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Create BOOK_AUTHORS junction table (M:M relationship)
+--  BOOK_AUTHORS junction table (M:M relationship)
 CREATE TABLE book_authors (
     book_id INT NOT NULL,
     author_id INT NOT NULL,
@@ -80,7 +80,7 @@ CREATE TABLE book_authors (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create BOOK_CATEGORIES junction table (M:M relationship)
+--  BOOK_CATEGORIES junction table (M:M relationship)
 CREATE TABLE book_categories (
     book_id INT NOT NULL,
     category_id INT NOT NULL,
@@ -90,7 +90,7 @@ CREATE TABLE book_categories (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create LOANS table
+--  LOANS table
 CREATE TABLE loans (
     loan_id INT AUTO_INCREMENT PRIMARY KEY,
     book_id INT NOT NULL,
@@ -107,7 +107,7 @@ CREATE TABLE loans (
     FOREIGN KEY (staff_id) REFERENCES staff(staff_id) ON DELETE CASCADE
 );
 
--- Create FINES table
+--  FINES table
 CREATE TABLE fines (
     fine_id INT AUTO_INCREMENT PRIMARY KEY,
     loan_id INT NOT NULL,
@@ -120,7 +120,7 @@ CREATE TABLE fines (
     FOREIGN KEY (loan_id) REFERENCES loans(loan_id) ON DELETE CASCADE
 );
 
--- Create RESERVATIONS table
+--  RESERVATIONS table
 CREATE TABLE reservations (
     reservation_id INT AUTO_INCREMENT PRIMARY KEY,
     book_id INT NOT NULL,
@@ -134,7 +134,7 @@ CREATE TABLE reservations (
     FOREIGN KEY (member_id) REFERENCES members(member_id) ON DELETE CASCADE
 );
 
--- Create EVENTS table
+--  EVENTS table
 CREATE TABLE events (
     event_id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
@@ -150,7 +150,7 @@ CREATE TABLE events (
     FOREIGN KEY (organizer_staff_id) REFERENCES staff(staff_id) ON DELETE SET NULL
 );
 
--- Create EVENT_ATTENDEES junction table (M:M relationship)
+--  EVENT_ATTENDEES junction table (M:M relationship)
 CREATE TABLE event_attendees (
     event_id INT NOT NULL,
     member_id INT NOT NULL,
@@ -161,7 +161,7 @@ CREATE TABLE event_attendees (
     FOREIGN KEY (member_id) REFERENCES members(member_id) ON DELETE CASCADE
 );
 
--- Create index for commonly searched fields
+--  index for commonly searched fields
 CREATE INDEX idx_books_title ON books(title);
 CREATE INDEX idx_books_isbn ON books(isbn);
 CREATE INDEX idx_members_name ON members(last_name, first_name);
